@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ChurnPredictionResponse {
-    private Boolean previsao;
+    private String previsao;
     private Double probabilidade;
 }

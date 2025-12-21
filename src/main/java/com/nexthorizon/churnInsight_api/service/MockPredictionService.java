@@ -11,15 +11,14 @@ public class MockPredictionService implements ChurnPredictionService {
 
     @Override
     public ChurnPredictionResponse predict(ChurnPredictionRequest request) {
-        boolean previsao =
+
+        boolean vaiCancelar =
                 request.getAtrasos_pagamento() > 1 ||
-                request.getTempo_contrato_meses() < 6;
+                        request.getTempo_contrato_meses() < 6;
 
-        // TODO: Retornar string de acordo com o contrato definido.
-        //  EX: Vai continuar
+        String previsao = vaiCancelar ? "Vai cancelar" : "Vai continuar";
 
-        double probabilidade = previsao ? 0.75 : 0.25;
-
+        double probabilidade = vaiCancelar ? 0.81 : 0.25;
         return new ChurnPredictionResponse(previsao, probabilidade);
     }
 }
