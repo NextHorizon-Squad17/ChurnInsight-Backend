@@ -7,15 +7,23 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.nexthorizon.churnInsight_api.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
-
+import org.springframework.beans.factory.annotation.Value;
 import java.time.Instant;
 import java.util.Optional;
 
 @Component
 public class TokenConfig {
 
-    // TODO: mover esta variavel para uma variavel de ambiente
-    private final String secret = "secret";
+    private final String secret;
+    private final long expirationSeconds;
+
+    public TokenConfig(
+            @Value("${security.jwt.secret}") String secret,
+            @Value("${security.jwt.expiration-seconds}") long expirationSeconds
+    ) {
+        this.secret = secret;
+        this.expirationSeconds = expirationSeconds;
+    }
 
     public String generateToken(User user) {
 
@@ -27,7 +35,7 @@ public class TokenConfig {
                         user.getAuthorities().stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .toList())
-                .withExpiresAt(Instant.now().plusSeconds(3600))
+                .withExpiresAt(Instant.now().plusSeconds(expirationSeconds))
                 .withIssuedAt(Instant.now())
                 .sign(algorithm);
     }
