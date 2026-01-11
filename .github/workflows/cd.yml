@@ -47,6 +47,6 @@ jobs:
         run: |
           ssh opc@${{ secrets.OCI_HOST }} << 'EOF'
             cd /opt/churn-insight
-            docker compose pull
-            docker compose up -d
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d
           EOF

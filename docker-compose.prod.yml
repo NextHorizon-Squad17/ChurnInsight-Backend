@@ -1,6 +1,6 @@
 services:
   api:
-    image: ghcr.io/raiuri/churn-insight-api:latest
+    image: ghcr.io/nexthorizon-squad17/churninsight-backend/churn-insight-api:latest
     container_name: churn-insight-api
     restart: always
     ports:
