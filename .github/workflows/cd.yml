@@ -54,7 +54,9 @@ jobs:
         run: |
           ssh -T opc@${{ secrets.OCI_HOST }} << 'EOF'
             cd /opt/churn-insight
+      
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            docker network inspect churninsight_net >/dev/null 2>&1 || docker network create churninsight_net
             docker compose -f docker-compose.prod.yml pull
             docker compose -f docker-compose.prod.yml up -d
             docker image prune -f
